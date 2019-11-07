@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+    <h:head>
+        <title>商品マスタ</title>
+        <h:outputStylesheet library="css" name="mystyles.css"/>
+    </h:head>
+    <h:body>
+    <h:form>
+        <p>商品</p>
+        <div class="container">
+             <div class="tilte">
+                 <div class="box">
+                     <p id="right" class="tilte" >商品情報(完了ページ)</p>
+                     <p><h:button class="inputbutton" value="登録" outcome="index.xhtml"/></p>
+                     <p><h:button class="inputbutton" value="更新" outcome="update.xhtml"/></p>
+                     <p><h:button class="inputbutton" value="検索" outcome="find.xhtml"/></p>
+                     <p><h:button class="inputbutton" value="削除" outcome="delete.xhtml"/></p>            
+             　　</div>
+
+                   <div class="left">
+                   <ul>    
+                   <li ><p class="baloonRed">商品コード</p>
+                       <p><h:inputText value="#{syohinMaster.shiireCode}" readonly="true"></h:inputText></p></li>                    
+                   <li><p class="baloon">オンライン品番</p>
+                       <p><h:inputText value="#{syohinMaster.onlineNum}" readonly="true"></h:inputText></p></li> 
+                       <li ><p class="baloon" >仕入先コード</p>
+                           <p><h:inputText value="#{syohinMaster.shiireCode}"  readonly="true"></h:inputText></p></li>                     
+                   <li><p class="baloonRed">仕入単価(円)</p>
+                       <p><h:inputText value="#{syohinMaster.shiireYen}"  readonly="true"></h:inputText></p></li> 
+                       
+                   <li ><p class="baloon">在庫管理</p>
+                           <p class="select-box">
+                               <h:selectOneMenu value="#{syohinMaster.yesNo}" readonly="true" disabled="true" >
+                                   <f:selectItems value="#{syohinMaster.items}"  />
+                               </h:selectOneMenu></p></li>   
+                       
+                   <li><p class="baloon">月平均出荷数</p>
+                       <p><h:inputText class="notedit" value="#{syohinMaster.monthAvarage}"  readonly="true"></h:inputText></p></li> 
+                   <li ><p class="baloon" >リードタイム</p>
+                       <p><h:inputText value="#{syohinMaster.leadTime}" readonly="true"></h:inputText></p></li>                    
+                   <li><p class="baloon">発注ロット</p>
+                       <p><h:inputText value="#{syohinMaster.orderLot}" readonly="true"></h:inputText></p></li>  
+                   </ul>      
+                </div>
+                    
+                <div class="center"> 
+                    <ul>
+                   <li ><p class="baloonRed">商品名※</p>
+                       <p><h:inputText value="#{syohinMaster.syohinName}" readonly="true"></h:inputText></p></li>                  
+                   <li><p class="baloon">JANコード</p>
+                       <p><h:inputText value="#{syohinMaster.JANCode}" readonly="true"></h:inputText></p></li> 
+                   <li ><p class="baloon">仕入先名</p>
+                       <p><h:inputText class="notedit" value="#{syohinMaster.shiireName}" readonly="true"></h:inputText></p></li>                   
+                   <li><p class="baloon">仕入単価(外貨)</p>
+                       <p><h:inputText value="#{syohinMaster.shiireGaika}" readonly="true"></h:inputText></p></li> 
+                   <li ><p class="baloon">入数</p>
+                       <p><h:inputText value="#{syohinMaster.irisu}" readonly="true"></h:inputText></p></li>                    
+                   <li><p class="baloon">倉庫名</p>                  
+                       <p><h:inputText class="notedit" value="#{syohinMaster.warehouseName}" readonly="true"></h:inputText></p></li> 
+                   <li ><p class="baloon">発注点</p>
+                       <p><h:inputText value="#{syohinMaster.reorderPoint}" readonly="true"></h:inputText></p></li>                    
+                   <li><p class="baloon">最大保有数</p>
+                       <p><h:inputText value="#{syohinMaster.maxHoldingNum}" readonly="true"></h:inputText></p></li> 
+                    </ul>
+                </div>
+                   
+                <div class="right">
+                    <ul>
+                    <li ><p class="baloon">商品名カナ</p>
+                        <p><h:inputText value="#{syohinMaster.syohinKana}" readonly="true"></h:inputText></p></li>                     
+                   <li><p class="baloon">廃番予定日</p>
+                       <p><label ><h:outputText value="#{syohinMaster.haibanDate}" >
+                           <f:convertDateTime pattern="yyyy-M-d" timeZone="Asia/Tokyo"/>
+                               </h:outputText></label></p></li> 
+                   <li ><p class="baloon">仕入先商品コード</p>
+                       <p><h:inputText value="#{syohinMaster.shiireShohinCode}" readonly="true"></h:inputText></p></li>   
+                            <br></br>
+                            <br></br>
+                   <li ><p class="baloon">棚番</p>
+                       <p><h:inputText value="#{syohinMaster.rackNum}" readonly="true"></h:inputText></p></li>                    
+                   <li><p class="baloon">安全在庫数</p>
+                       <p><h:inputText value="#{syohinMaster.QSafetyStock}" readonly="true"></h:inputText></p></li>
+                   <li ><p class="baloon">単位発注限度数</p>
+                       <p><h:inputText value="#{syohinMaster.uiOrderLimitNum}" readonly="true"></h:inputText></p></li>  
+                    </ul>
+                </div>                                     
+                    <div class="lastcontents">  
+                        <li class="yohaku"><p class="baloon">発注限度数</p>
+                            <p><h:inputText value="#{syohinMaster.orderLimitNum}" readonly="true"></h:inputText></p>                  
+                   <p class="baloon">売単価</p>
+                   <p><h:inputText value="#{syohinMaster.unitSellingPrice}" readonly="true"></h:inputText></p>
+                   <p class="baloon">数量割引</p>
+                   <p><h:inputText value="#{syohinMaster.quantityDiscount}" readonly="true"></h:inputText></p>
+                   <p><h:inputText class="notedit" value="#{syohinMaster.quantityDiscount}" readonly="true"></h:inputText></p></li>
+                </div>               
+        </div>
+        </div>
+
+        </h:form>    
+    </h:body>
+</html>
+

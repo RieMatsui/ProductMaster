@@ -1,0 +1,207 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+    <h:head>
+        <title>商品マスタ</title>
+        <h:outputStylesheet library="css" name="mystyles.css"/>
+    </h:head>
+    <h:body>
+    <h:form>
+        <p>商品</p>
+        <div class="container">
+             <div class="tilte">
+                 <div class="box">
+                     <p class="tilte" >商品情報(削除ページ)</p>
+                     <p class="error" id="msg">#{syohinMaster.msg}</p>
+                     <h:message for="msg" rendered="false"/>
+                     <div id="right">
+                     <h:button class="menubutton" value="登録ページへ" outcome="index.xhtml"/>
+                     <h:button class="menubutton" value="更新ページへ" outcome="update.xhtml"/>
+                     <h:button class="menubutton" value="検索ページへ" outcome="find.xhtml"/>
+                     <h:button class="activebutton" value="削除ページへ" outcome="delete.xhtml"/>
+                     </div>
+                     <h5>削除したいデータの表示欄をクリックし、間違いがなければ削除ボタンを押して下さい</h5>
+             　　</div>
+                     <div id="dataTabel">
+                     <h:dataTable  value="#{syohinMaster.all}" var="item"
+                                   captionClass="cp"
+                                   headerClass="hd1"
+                                   rowClasses="row">
+                         <f:facet name="caption">登録データ一覧</f:facet>
+                     <h:column>
+                         <f:facet name="header">登録ユーザー</f:facet>
+                         #{item.createUser}           
+                    </h:column>
+                     <h:column>
+                         <f:facet name="header">商品コード</f:facet>
+                         #{item.syohinCode}
+                     </h:column>
+                    <h:column>
+                        <f:facet name="header">仕入コード</f:facet>
+                         #{item.shiireCode}
+                     </h:column>
+                     <h:column>
+                         <f:facet name="header">仕入単価(円)</f:facet>
+                         #{item.shiireYen}
+                     </h:column>
+                     <h:column>
+                         <f:facet name="header">商品名</f:facet>
+                         #{item.syohinName}
+                    </h:column>
+                     <h:column>
+                         <f:facet name="header">棚番</f:facet>
+                         #{item.rackNum}
+                     </h:column>
+                     <h:column>
+                         <f:facet name="header">表示</f:facet>
+                         <h:commandLink id="display" value="表示" action="#{syohinMaster.edit(item)}">
+                         <f:ajax  execute="@this" render="@all"/>
+                     </h:commandLink>
+                     </h:column>
+                 </h:dataTable>
+                     </div>
+             </div>
+                   <div class="left">
+                   <ul>    
+                   <li ><p class="baloonRed">商品コード</p>
+                       <p><h:inputText id="syohinCode" value="#{syohinMaster.syohinCode}" required = "true" label="商品コード" readonly="true"></h:inputText></p></li>
+                       <h:message for="syohinCode" errorClass="error"></h:message>
+                       
+                   <li><p class="baloon">オンライン品番</p>
+                       <p><h:inputText id="onlineNum" value="#{syohinMaster.onlineNum}" label="オンライン品番" readonly="true"></h:inputText></p></li>
+                       <h:message for="onlineNum" errorClass="error"></h:message>
+                       
+                   <li ><p class="baloon">仕入先コード</p>
+                       <p><h:inputText id="shiireCode" value="#{syohinMaster.shiireCode}" required = "true" label="仕入先コード"  readonly="true">
+                               <f:ajax event="change" execute="@this" render="shiireName" listener="#{syohinMaster.readProperty()}"/>
+                           </h:inputText>
+                       </p></li> 
+                       <h:message for="shiireCode" errorClass="error"></h:message>
+                       
+                   <li><p class="baloonRed">仕入単価(円)</p>
+                       <p><h:inputText id="shiireYen" value="#{syohinMaster.shiireYen}" rendered="true" label="仕入単価(円)" readonly="true"></h:inputText></p></li> 
+                       <h:message for="shiireYen" errorClass="error"/>
+                       
+                   <li ><p class="baloon">在庫管理</p>
+                       <p class="select-box">
+                           <h:selectOneMenu value="#{syohinMaster.yesNo}" styleClass="sel" readonly="true" disabled="true">
+                               <f:selectItems value="#{syohinMaster.items}"/>
+                               <f:ajax event="change"  listener="#{syohinMaster.checkZaiko()}"/>
+                           </h:selectOneMenu></p></li> 
+                       
+                   <li><p class="baloon" >月平均出荷数</p>
+                       <p><h:inputText id="monthAvarage" class="notedit" value="#{syohinMastaer.monthAvarage}" label="月平均出荷数" readonly="true"></h:inputText></p></li>
+                       <h:message for="monthAvarage" errorClass="error"/>
+                       
+                       <li ><p class="baloon" >リードタイム</p>
+                           <p><h:inputText id="leadTime" value ="#{syohinMaster.leadTime}" label="リードタイム" readonly="true"></h:inputText>　日</p></li>
+                       <h:message for="leadTime" errorClass="error"/>
+                       
+                   <li><p class="baloon" >発注ロット</p>
+                       <p><h:inputText id="orderLot" value="#{syohinMaster.orderLot}" label="発注ロット" readonly="true"></h:inputText></p></li>
+                       <h:message for="orderLot" errorClass="error"/>
+                   </ul>      
+                </div>          
+                <div class="center"> 
+                    <ul>
+                   <li ><p class="baloonRed">商品名※</p>
+                       <p><h:inputText id="syohinName" value="#{syohinMaster.syohinName}" required = "true" label="商品名" readonly="true"></h:inputText></p></li>
+                        <h:message for="syohinName" errorClass="error"></h:message>
+                        
+                   <li><p class="baloon">JANコード</p>
+                       <p><h:inputText id="JANCode" value="#{syohinMaster.JANCode}" label="JANコード" readonly="true"></h:inputText></p></li>
+                       <h:message for="JANCode" errorClass="error"></h:message>
+                       
+                   <li ><p class="baloon">仕入先名</p>
+                       <p><h:inputText id="shiireName" class="notedit" value="#{syohinMaster.shiireName}" label="仕入先名"  readonly="true" >
+                               <f:ajax event="change" />
+                           </h:inputText></p></li> 
+                       <h:message for="shiireName" errorClass="error"></h:message>
+                       
+                   <li><p class="baloon">仕入単価(外貨)</p>
+                       <p><h:inputText id="shiireGaika" value="#{syohinMaster.shiireGaika}" label="仕入単価(外貨)" readonly="true"></h:inputText></p></li> 
+                       <h:message for="shiireGaika" errorClass="error"></h:message>
+                       
+                   <li ><p class="baloon">入数</p>
+                       <p><h:inputText id="irisu" value="#{syohinMaster.irisu}" label="入数" readonly="true"></h:inputText></p></li>   
+                       <h:message for="irisu" errorClass="error"></h:message>
+                       
+                   <li><p class="baloon">倉庫名</p>
+                       <p><h:inputText id="warehouseName" class="notedit" value="#{syohinMaster.warehouseName}" readonly="true" label="倉庫名">
+                           </h:inputText></p></li>
+                       <h:message for="warehouseName" errorClass="error"></h:message>
+                       
+                   <li ><p class="baloon">発注点</p>
+                       <p><h:inputText id="reorderPoint" value="#{syohinMaster.reorderPoint}" label="発注点" readonly="true"></h:inputText></p></li>
+                       <h:message for="reorderPoint" errorClass="error"></h:message>
+                       
+                   <li><p class="baloon">最大保有数</p>
+                       <p><h:inputText id="maxHoldingNum" value="#{syohinMaster.maxHoldingNum}" label="最大保有数" readonly="true"></h:inputText></p></li>
+                       <h:message for="maxHoldingNum" errorClass="error"></h:message>
+                    </ul>
+                </div>
+                   
+                <div class="right">
+                    <ul>
+                    <li ><p class="baloon">商品名カナ</p>
+                        <p><h:inputText id="syohinKana" value="#{syohinMaster.syohinKana}" readonly="true"></h:inputText></p></li>
+                        <h:message for="syohinKana" errorClass="error"></h:message>
+                        
+                   <li><p class="baloon">廃番予定日</p>
+                       <p><label><h:inputText id="haibanDate" value="#{syohinMaster.haibanDate}" p:type="date" readonly="true">
+                               <f:convertDateTime pattern="yyyy-M-d" timeZone="Asia/Tokyo"/>
+                               </h:inputText></label></p></li> 
+                        
+                   <li ><p class="baloon">仕入先商品コード</p>
+                       <p><h:inputText id="shiireShohinCode" value="#{syohinMaster.shiireShohinCode}" readonly="true"></h:inputText></p></li>
+                       <h:message for="shiireShohinCode" errorClass="error"></h:message>
+                       
+                            <br></br>
+                            <br></br>
+                   <li ><p class="baloon">棚番</p>
+                       <p><h:inputText id="rackNum" value="#{syohinMaster.rackNum}" label="棚版" required="true" readonly="true"></h:inputText></p></li>
+                            <h:message for="rackNum" errorClass="error"></h:message>
+                            
+                   <li><p class="baloon">安全在庫数</p>
+                       <p><h:inputText id="QSafetyStock" value="#{syohinMaster.QSafetyStock}" label="安全在庫数" readonly="true"></h:inputText></p></li>
+                       <h:message for="QSafetyStock" errorClass="error"></h:message>
+                       
+                   <li ><p class="baloon">単位発注限度数</p>
+                       <p><h:inputText id="uiOrderLimitNum" value="#{syohinMaster.uiOrderLimitNum}" label="単位発注限度数" readonly="true"></h:inputText></p></li>
+                       <h:message for="uiOrderLimitNum" errorClass="error"></h:message>
+                       
+                    </ul>
+                </div>                                     
+                    <div class="lastcontents">  
+                        <li class="yohaku"><p class="baloon">発注限度数</p>
+                            <p><h:inputText id="orderLimitNum" value="#{syohinMaster.orderLimitNum}" label="発注限度数" readonly="true"></h:inputText></p>
+                            
+                   <p class="baloon">売単価</p>
+                   <p><h:inputText id="unitSellingPrice" value="#{syohinMaster.unitSellingPrice}" label="売単価" readonly="true"></h:inputText></p>
+                   
+                   
+                   <p class="baloon">数量割引</p>
+                   <p><h:inputText id="quantityDiscount" value="#{syohinMaster.quantityDiscount}" label="数量割引" readonly="true"></h:inputText></p>
+                   <p><h:inputText id="discountRate" value="#{syohinMaster.discountRate}" class="notedit" readonly="true"></h:inputText></p></li>
+                   
+                   
+                        <h:message for="orderLimitNum" errorClass="error"></h:message><br></br>
+                        <h:message for="unitSellingPrice" errorClass="error"></h:message><br></br>
+                        <h:message for="quantityDiscount" errorClass="error"></h:message><br></br>
+                   
+                </div>
+                 
+        </div>
+        <li class="footer">
+        登録日：更新日:
+        <p><h:commandButton class="inputbutton" value="初期化" immediate="true" action="#{syohinMaster.refresh()}"/></p>
+        <p><h:commandButton id="regist" class="inputbutton" value="削除" action="#{syohinMaster.delete()}">
+            </h:commandButton></p></li>  
+        </h:form>
+    </h:body>
+</html>
+
+

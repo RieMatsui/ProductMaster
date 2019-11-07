@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>商品マスタ検索画面</title>
+        <h:outputStylesheet name="mystyle.css" library="css"/>
+    </h:head>
+    <h:body>
+        <div id="header">
+            <h1>商品マスタ　検索画面</h1>
+        </div>
+        <div id="contents">
+            <h:form>
+            <ul> 
+                <a><h:commandLink action="#{shohinBb.goShohinMaster()}"><li class="nav">登録</li></h:commandLink></a>
+                <li class="active">検索</li>
+                <a><h:commandLink action="#{shohinBb.goUpdate()}"><li class="nav">更新</li></h:commandLink></a>
+                <a><h:commandLink action="#{shohinBb.goDelete()}"><li class="nav">削除</li></h:commandLink></a>
+                <a><h:commandLink action="#{shohinBb.goMenu()}"><li class="nav">戻る</li></h:commandLink></a>
+            </ul>
+            <h:panelGrid columns="2">
+                &emsp;&emsp;商品名&emsp;&emsp;&emsp;<h:inputText value="#{shohinBb.shohinName}"></h:inputText>
+            </h:panelGrid>
+                <h:commandButton value="送信" class="button" action="#{shohinBb.test()}"/>
+                <h:dataTable value="#{shohinBb.TShohinList}" var="tshohin"
+                             headerClass="hd1" rowClasses="row"
+                             columnClasses="c1,c2,c3,c4,c5">
+                        <f:facet name="header">商品マスタ</f:facet>
+                        <h:column headerClass="hd2">
+                            <f:facet name="header">商品ID</f:facet>
+                            #{tshohin.shohinId}
+                        </h:column>
+                        <h:column headerClass="hd2">
+                            <f:facet name="header">商品名</f:facet>
+                            #{tshohin.shohinName}
+                        </h:column>
+                        <h:column headerClass="hd2">
+                            <f:facet name="header">グループ名</f:facet>
+                            #{tshohin.groupName}
+                        </h:column>
+                        <h:column headerClass="hd2">
+                            <f:facet name="header">仕入価格</f:facet>
+                            #{tshohin.shiirekakaku}
+                        </h:column>
+                        <h:column headerClass="hd2">
+                            <f:facet name="header">卸単価</f:facet>
+                            #{tshohin.oroshitanka}
+                        </h:column> 
+                </h:dataTable>    
+        </h:form>
+        </div>
+    </h:body>
+</html>
+
